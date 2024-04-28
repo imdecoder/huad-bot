@@ -6,7 +6,7 @@ const bot = new TelegramBot(token, { polling: true });
 
 bot.onText(/\/start/, (msg) => {
 	const chatId = msg.chat.id;
-	bot.sendMessage(chatId, 'Merhaba, benim adım Telegram Botum! Nasıl yardımcı olabilirim?');
+	bot.sendMessage(chatId, 'Merhaba! Nasıl yardımcı olabilirim?');
 });
 
 bot.onText(/\/king/, (msg) => {
