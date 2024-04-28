@@ -14,7 +14,14 @@ bot.onText(/\/king/, (msg) => {
 	bot.sendMessage(chatId, 'Çağrı Konaçoğlu, oyunun en yüksek yöneticisi ve sembolik figürüdür.');
 });
 
-bot.on('message', (msg) => {
+bot.onText(/\/limit/, (msg) => {
+	
+
+	const chatId = msg.chat.id;
+	bot.sendMessage(chatId, 'Çağrı Konaçoğlu, oyunun en yüksek yöneticisi ve sembolik figürüdür.');
+});
+
+/*bot.on('message', (msg) => {
 	const chatId = msg.chat.id;
 	bot.sendMessage(chatId, 'Mesajını aldım!');
-});
+});*/
