@@ -1,22 +1,66 @@
 [
     {
-        "name": "rr",
-        "value": "5000b6c8d411f48a6b13a00925650556"
-    },
-    {
-        "name": "PHPSESSID",
-        "value": "9mqc7mbf2i94sj7dkc7fbajlld"
-    },
-    {
-        "name": "rr_add",
-        "value": "9d47898aabf55ca629e61079f7040c7c"
-    },
-    {
+        "domain": "m.rivalregions.com",
+        "expirationDate": 1714877946.206797,
+        "hostOnly": true,
+        "httpOnly": false,
         "name": "rr_f",
-        "value": "df4ee7386e9971989ae36f7631c8dadc"
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "e8173ba7c3f616673117332f6b248830"
     },
     {
+        "domain": "m.rivalregions.com",
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "PHPSESSID",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "session": true,
+        "storeId": null,
+        "value": "ph1te749mfo6bldrk8tguvj8jn"
+    },
+    {
+        "domain": "m.rivalregions.com",
+        "expirationDate": 1714863963.629479,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "rr",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "f89fbf00034afef2a2c757800bb3eed2"
+    },
+    {
+        "domain": "m.rivalregions.com",
+        "expirationDate": 1714863963.6296,
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "rr_add",
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "586cd47f3c7d57de987ac3701edf628b"
+    },
+    {
+        "domain": "m.rivalregions.com",
+        "expirationDate": 1714863963.629555,
+        "hostOnly": true,
+        "httpOnly": false,
         "name": "rr_id",
-        "value": "2001605238"
+        "path": "/",
+        "sameSite": "Lax",
+        "secure": false,
+        "session": false,
+        "storeId": null,
+        "value": "2001454246"
     }
 ]
