@@ -1,7 +1,7 @@
 [
     {
         "domain": "m.rivalregions.com",
-        "expirationDate": 1714877946.206797,
+        "expirationDate": 1715103003.270334,
         "hostOnly": true,
         "httpOnly": false,
         "name": "rr_f",
@@ -10,7 +10,7 @@
         "secure": false,
         "session": false,
         "storeId": null,
-        "value": "e8173ba7c3f616673117332f6b248830"
+        "value": "3c2902ae1b701fc833674fb15ad81825"
     },
     {
         "domain": "m.rivalregions.com",
@@ -22,11 +22,11 @@
         "secure": false,
         "session": true,
         "storeId": null,
-        "value": "ph1te749mfo6bldrk8tguvj8jn"
+        "value": "n07jf7oc9j6d4vvbentm2pfu16"
     },
     {
         "domain": "m.rivalregions.com",
-        "expirationDate": 1714863963.629479,
+        "expirationDate": 1715100711.913573,
         "hostOnly": true,
         "httpOnly": false,
         "name": "rr",
@@ -35,11 +35,11 @@
         "secure": false,
         "session": false,
         "storeId": null,
-        "value": "f89fbf00034afef2a2c757800bb3eed2"
+        "value": "df668fcc61bc5ac773bedf7d342a60be"
     },
     {
         "domain": "m.rivalregions.com",
-        "expirationDate": 1714863963.6296,
+        "expirationDate": 1715100711.91378,
         "hostOnly": true,
         "httpOnly": false,
         "name": "rr_add",
@@ -52,7 +52,7 @@
     },
     {
         "domain": "m.rivalregions.com",
-        "expirationDate": 1714863963.629555,
+        "expirationDate": 1715100711.913704,
         "hostOnly": true,
         "httpOnly": false,
         "name": "rr_id",
