@@ -5,19 +5,33 @@ const fs = require('fs').promises;
 const token = '6619909570:AAEQ7exyxb2ipy7K7Qo9H1FimJf3KjIqJqs';
 
 let chatId = null;
+let isBotStarted = false;
 
 let warId = null;
-let partyId = 340709; // 340305 (HUAD)
+let partyId = 340305; // 340305 (HUAD)
 let limit = null;
 let lastLimit = null;
 
 const bot = new TelegramBot(token, { polling: true });
 
-bot.onText(/\/start/, (msg) => {
-	chatId = msg.chat.id;
-	bot.sendMessage(chatId, 'Merhaba! Bana komutlardan birini vererek başlayabilirsin.');
+const allowedUserIds = [6303824081, 579013623]; // Emin, Çağrı
 
-	limitFunction();
+/*bot.on('message', (msg) => {
+    const userId = msg.from.id;
+    console.log("Kullanıcı ID:", userId);
+});*/
+
+bot.onText(/\/start/, (msg) => {
+    chatId = msg.chat.id;
+    const userId = msg.from.id;
+
+    if (allowedUserIds.includes(parseInt(userId))) {
+		isBotStarted = true;
+		limitFunction();
+        bot.sendMessage(chatId, 'Merhaba! Bana komutlardan birini vererek başlayabilirsin.');
+    } else {
+        bot.sendMessage(chatId, 'Üzgünüm, botu başlatmak için yetkiniz yok.');
+    }
 });
 
 bot.onText(/\/king/, (msg) => {
@@ -26,46 +40,76 @@ bot.onText(/\/king/, (msg) => {
 });
 
 bot.onText(/\/war (.+)/, (msg, match) => {
-	chatId = msg.chat.id;
+    if (isBotStarted) {
+		chatId = msg.chat.id;
+		const userId = msg.from.id;
 
-	const link = match[1];
-	const matchResult = link.match(/\/(\d+)$/);
-	const id = matchResult ? matchResult[1] : null;
+		bot.getChatMember(chatId, userId)
+			.then((chatMember) => {
+				if (chatMember.status === 'administrator' || chatMember.status === 'creator') {
+					const link = match[1];
+					const matchResult = link.match(/\/(\d+)$/);
+					const id = matchResult ? matchResult[1] : null;
 
-	warId = id;
+					warId = id;
 
-	bot.sendMessage(chatId, 'Order tanımlandı.');
+					bot.sendMessage(chatId, 'Order tanımlandı.');
+				} else {
+					bot.sendMessage(chatId, 'Üzgünüm, bu komutu çalıştırmak için yetkiniz yok.');
+				}
+			})
+			.catch((error) => {
+				console.error("Hata:", error);
+				bot.sendMessage(chatId, 'Komutu çalıştırırken bir hata oluştu.');
+			});
+	}
 });
 
 bot.onText(/\/limit (.+)/, (msg, match) => {
-	chatId = msg.chat.id;
+    if (isBotStarted) {
+		chatId = msg.chat.id;
+		const userId = msg.from.id;
 
-	const limitText = match[1];
-	const limitValue = parseLimit(limitText);
+		bot.getChatMember(chatId, userId)
+			.then((chatMember) => {
+				if (chatMember.status === 'administrator' || chatMember.status === 'creator') {
+					const limitText = match[1];
+					const limitValue = parseLimit(limitText);
 
-	if (limitValue !== null) {
-		limit = limitValue;
-		bot.sendMessage(chatId, 'Limit tanımlandı. Bol şans!');
-	} else {
-		bot.sendMessage(chatId, 'Geçersiz limit, lütfen doğru bir limit girin.\n(Örn: 5kkk)');
+					if (limitValue !== null) {
+						limit = limitValue;
+						bot.sendMessage(chatId, 'Limit tanımlandı. Bol şans!');
+					} else {
+						bot.sendMessage(chatId, 'Geçersiz limit, lütfen doğru bir limit girin.\n(Örn: 5kkk)');
+					}
+				} else {
+					bot.sendMessage(chatId, 'Üzgünüm, bu komutu çalıştırmak için yetkiniz yok.');
+				}
+			})
+			.catch((error) => {
+				console.error("Hata:", error);
+				bot.sendMessage(chatId, 'Komutu çalıştırırken bir hata oluştu.');
+			});
 	}
 });
 
 bot.onText(/\/info/, (msg) => {
-	chatId = msg.chat.id;
+	if (isBotStarted) {
+		chatId = msg.chat.id;
 
-	if (warId !== null && limit !== null) {
-		runTask().then((res) => {
-			if (lastLimit <= 0) {
-				bot.sendMessage(chatId, 'Order limiti doldu.');
-			} else {
-				bot.sendMessage(chatId, 'Toplam limit: ' + formatNumberWithDots(limit) + '\nKalan limit: ' + formatNumberWithDots(lastLimit));
-			}
-		}).catch((err) => {
-			bot.sendMessage(chatId, 'İşlem sırasında bir hata oluştu ve bilgi getirilemedi.');
-		});
-	} else {
-		bot.sendMessage(chatId, 'Hata! Savaş veya limit değeri tanımlanmamış.');
+		if (warId !== null && limit !== null) {
+			runTask().then((res) => {
+				if (lastLimit <= 0) {
+					bot.sendMessage(chatId, 'Order limiti doldu.');
+				} else {
+					bot.sendMessage(chatId, 'Toplam limit: ' + formatNumberWithDots(limit) + '\nKalan limit: ' + formatNumberWithDots(lastLimit));
+				}
+			}).catch((err) => {
+				bot.sendMessage(chatId, 'İşlem sırasında bir hata oluştu ve bilgi getirilemedi.');
+			});
+		} else {
+			bot.sendMessage(chatId, 'Hata! Savaş veya limit değeri tanımlanmamış.');
+		}
 	}
 });
 
@@ -115,8 +159,8 @@ async function runTask() {
 			const users = await page.$$('#list_tbody tr');
 
 			for (const user of users) {
-				let id = 'NULL';
-				let damage = 'NULL';
+				let id = null;
+				let damage = null;
 
 				try {
 					id = await page.evaluate((el) => el.getAttribute('user'), user);
@@ -127,7 +171,7 @@ async function runTask() {
 					damage = parseInt(damage);
 				} catch (err) { }
 
-				if (id !== 'NULL') {
+				if (id !== null) {
 					damages += damage;
 				}
 			}
